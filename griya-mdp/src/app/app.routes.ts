@@ -1,32 +1,41 @@
 import { Routes } from '@angular/router';
 import { Home as HomeComponent } from './home/home';
 import { Profile } from './profile/profile';
+import { Login } from './login/login';
 import { Register } from './register/register';
 import { Contact } from './contact/contact';
-import { Login } from './login/login';
+import { Detail } from './detail/detail';  // ← Import Detail Component
 
-
-export const routes: Routes =[
+export const routes: Routes = [
     {
-        path:"",
-        component:HomeComponent,
-        title:"Home Page"
+        path : "",
+        component : HomeComponent,
+        title : 'Home Page'
     },
     {
-        path:"Profile",
-        component:Profile,
-        //title:"Profile Page"
+        path : "profile",
+        component : Profile,
     },
     {
-        path:"Login",
-        component:Login,
+        path : "login",
+        component : Login,
     },
     {
-        path:"Register",
-        component:Register,
+        path : "register",
+        component : Register,
     },
     {
-        path:"Contact",
-        component:Contact,
+        path : "contact",
+        component : Contact,
     },
-]
+    {
+        path: "property/:id",           // ← Route dengan parameter
+        component: Detail,
+        title: 'Detail Property - Griya MDP'
+    },
+    {
+        path: "**",                      // ← Wildcard untuk 404
+        redirectTo: "",
+        pathMatch: 'full'
+    }
+];
