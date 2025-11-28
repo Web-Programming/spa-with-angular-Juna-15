@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const jwt = require("jsonwebtoken");
 
 // Register User Baru
 const register = async (req, res) => {
@@ -66,6 +67,13 @@ const register = async (req, res) => {
     // Simpan ke database
     await newUser.save();
 
+    // Generate Token
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      "kunci_rahasia_griya_mdp",
+      { expiresIn: "1h" }
+    );
+
     // Response sukses (jangan kirim password)
     res.status(201).json({
       success: true,
@@ -74,7 +82,8 @@ const register = async (req, res) => {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        createdAt: newUser.createdAt
+        createdAt: newUser.createdAt,
+        token: token
       }
     });
 
@@ -137,6 +146,13 @@ const login = async (req, res) => {
       });
     }
 
+    // Generate Token
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      "kunci_rahasia_griya_mdp",
+      { expiresIn: "1h" }
+    );
+
     // Response sukses (jangan kirim password)
     res.status(200).json({
       success: true,
@@ -144,7 +160,8 @@ const login = async (req, res) => {
       data: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        token: token
       }
     });
 
